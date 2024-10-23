@@ -9,37 +9,21 @@
   <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.js"></script>
   <style>
     body, html { margin: 0; padding: 0; overflow: hidden; }
-    #startButton {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px;
-      background-color: #007bff;
-      color: white;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      display: none;
-    }
   </style>
 </head>
 <body>
-  <!-- Botón para iniciar la reproducción en móviles -->
-  <button id="startButton">Iniciar AR</button>
-
   <!-- Escena de AR con marcador "hiro" -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
     <a-marker preset="hiro">
+      <!-- Reproducir video en un plano 3D en el marcador -->
       <a-video 
-        id="arVideo"
+        src="#videoAR" 
         position="0 0.5 0" 
         rotation="-90 0 0" 
         width="1" 
         height="0.5"
         autoplay
         muted
-        playsinline
         crossorigin="anonymous">
       </a-video>
     </a-marker>
@@ -53,39 +37,16 @@
   </video>
 
   <script>
-    var videoAR = document.getElementById('videoAR');
-    var arVideo = document.getElementById('arVideo');
-    var startButton = document.getElementById('startButton');
-
-    // Mostrar el botón en móviles para permitir la interacción del usuario
-    window.addEventListener('load', function () {
-      if (isMobile()) {
-        startButton.style.display = 'block';
-      } else {
-        videoAR.play(); // En escritorio, se reproduce automáticamente
-      }
-    });
-
-    // Detectar si es un dispositivo móvil
-    function isMobile() {
-      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    }
-
-    // Iniciar la AR después de que el usuario interactúe en móviles
-    startButton.addEventListener('click', function () {
-      videoAR.play();
-      startButton.style.display = 'none'; // Ocultar el botón
-    });
-
-    // Reproducir el video AR cuando el marcador se detecta
+    // Asegurarnos de que el video comienza cuando el marcador es detectado
     document.querySelector('a-marker').addEventListener('markerFound', function() {
-      arVideo.setAttribute('src', '#videoAR'); // Enlazar el video con el plano en AR
-      videoAR.play(); // Asegurar que el video se esté reproduciendo
+      var video = document.getElementById('videoAR');
+      video.play(); // Asegurarse de que el video comience al encontrar el marcador
     });
 
-    // Pausar el video cuando el marcador se pierde
+    // Opcionalmente, pausar el video cuando el marcador no está en la vista
     document.querySelector('a-marker').addEventListener('markerLost', function() {
-      videoAR.pause();
+      var video = document.getElementById('videoAR');
+      video.pause();
     });
   </script>
 </body>
