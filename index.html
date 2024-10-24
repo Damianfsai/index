@@ -41,7 +41,8 @@
   <button id="startButton">Iniciar AR</button>
 
   <!-- Escena de AR con marcador "hiro" -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+    <!-- Ajustar el marcador y su contenido -->
     <a-marker preset="hiro">
       <a-video 
         id="arVideo"
@@ -52,10 +53,13 @@
         autoplay
         muted
         playsinline
-        crossorigin="anonymous">
+        crossorigin="anonymous"
+        scale="0.5 0.5 0.5"> <!-- Ajustar el tamaño para centrado -->
       </a-video>
     </a-marker>
-    <a-entity camera></a-entity>
+    
+    <!-- Ajustes para la cámara -->
+    <a-entity camera position="0 0 0" look-controls="enabled: true"></a-entity>
   </a-scene>
 
   <!-- Video oculto que será utilizado en AR -->
@@ -69,17 +73,6 @@
     var arVideo = document.getElementById('arVideo');
     var startButton = document.getElementById('startButton');
     var videoReady = false;
-
-    // Detectar errores de carga del video
-    videoAR.addEventListener('error', function() {
-      console.error("Error al cargar el video. Verifica la URL o la política de CORS.");
-    });
-
-    // Detectar si el video está listo para reproducirse
-    videoAR.addEventListener('loadeddata', function() {
-      console.log("Video cargado correctamente y listo para reproducirse.");
-      videoReady = true;
-    });
 
     // Mostrar el botón en móviles para permitir la interacción del usuario
     window.addEventListener('load', function () {
@@ -111,8 +104,6 @@
         }).catch(error => {
           console.error("Error al intentar reproducir el video: ", error);
         });
-      } else {
-        console.error("El video aún no está listo para reproducirse.");
       }
     });
 
