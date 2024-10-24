@@ -33,15 +33,6 @@
       position: relative;
       z-index: 0;
     }
-
-    #videoAR {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      width: 80%;
-    }
   </style>
 </head>
 <body>
@@ -68,7 +59,7 @@
   </a-scene>
 
   <!-- Video oculto que será utilizado en AR -->
-  <video id="videoAR" loop muted playsinline controls style="display: none;">
+  <video id="videoAR" loop muted playsinline style="display: none;">
     <source src="punch0001-0250.mp4" type="video/mp4">
     Tu navegador no soporta la reproducción de este video.
   </video>
@@ -88,7 +79,6 @@
     videoAR.addEventListener('loadeddata', function() {
       console.log("Video cargado correctamente y listo para reproducirse.");
       videoReady = true;
-      videoAR.style.display = "block";  // Mostrar controles del video en la pantalla
     });
 
     // Mostrar el botón en móviles para permitir la interacción del usuario
