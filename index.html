@@ -9,6 +9,8 @@
   <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.js"></script>
   <style>
     body, html { margin: 0; padding: 0; overflow: hidden; }
+
+    /* Aseguramos que el botón esté por encima de la escena AR */
     #startButton {
       position: absolute;
       top: 50%;
@@ -20,11 +22,24 @@
       font-size: 18px;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000; /* Asegura que el botón esté al frente */
+    }
+
+    /* Oculta el botón cuando no es necesario */
+    #startButton.hidden {
       display: none;
+    }
+
+    /* Estilo para evitar que la escena AR bloquee la interacción con el botón */
+    a-scene {
+      position: relative;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
+
   <!-- Botón para iniciar la reproducción en móviles -->
   <button id="startButton">Iniciar AR</button>
 
@@ -48,7 +63,7 @@
 
   <!-- Video oculto que será utilizado en AR -->
   <video id="videoAR" autoplay loop muted playsinline style="display: none;">
-    <source src="https://drive.google.com/uc?export=download&id=1jaOo4M3B5wprPomc1H6hBKRKdygAcwYw" type="video/mp4">
+    <source src="tu_video.mp4" type="video/mp4">
     Tu navegador no soporta la reproducción de este video.
   </video>
 
@@ -60,7 +75,7 @@
     // Mostrar el botón en móviles para permitir la interacción del usuario
     window.addEventListener('load', function () {
       if (isMobile()) {
-        startButton.style.display = 'block';
+        startButton.classList.remove('hidden');
       } else {
         videoAR.play(); // En escritorio, se reproduce automáticamente
       }
@@ -74,7 +89,7 @@
     // Iniciar la AR después de que el usuario interactúe en móviles
     startButton.addEventListener('click', function () {
       videoAR.play();
-      startButton.style.display = 'none'; // Ocultar el botón
+      startButton.classList.add('hidden'); // Ocultar el botón
     });
 
     // Reproducir el video AR cuando el marcador se detecta
@@ -88,5 +103,6 @@
       videoAR.pause();
     });
   </script>
+
 </body>
 </html>
