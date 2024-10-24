@@ -68,18 +68,7 @@
     var videoAR = document.getElementById('videoAR');
     var arVideo = document.getElementById('arVideo');
     var startButton = document.getElementById('startButton');
-    var videoReady = false;
-
-    // Detectar errores de carga del video
-    videoAR.addEventListener('error', function() {
-      console.error("Error al cargar el video. Verifica la URL o la política de CORS.");
-    });
-
-    // Detectar si el video está listo para reproducirse
-    videoAR.addEventListener('loadeddata', function() {
-      console.log("Video cargado correctamente y listo para reproducirse.");
-      videoReady = true;
-    });
+    var videoReady = false;  // Variable para comprobar si el video está listo
 
     // Mostrar el botón en móviles para permitir la interacción del usuario
     window.addEventListener('load', function () {
@@ -106,13 +95,7 @@
     document.querySelector('a-marker').addEventListener('markerFound', function() {
       if (videoReady) {
         arVideo.setAttribute('src', '#videoAR'); // Asignar el video oculto al video en la escena AR
-        videoAR.play().then(() => {
-          console.log("Reproducción de video iniciada.");
-        }).catch(error => {
-          console.error("Error al intentar reproducir el video: ", error);
-        });
-      } else {
-        console.error("El video aún no está listo para reproducirse.");
+        videoAR.play(); // Reproducir el video
       }
     });
 
